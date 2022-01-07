@@ -16,7 +16,9 @@ int main()
         int pidWait1, pidWait2;
         if (c2 > 0)
         {
-            pidWait1 = wait(NULL);
+            printf("4aA) P1(%d) is waiting to P2(%d) to terminate\n", getpid(), c);
+            pidWait1 = waitpid(c, NULL, 0);
+            printf("4aB) P2(%d) terminated\n", c);
         }
         else
         {
@@ -26,17 +28,9 @@ int main()
             execv("p3", arg);
 #endif
         }
-        pidWait2 = wait(NULL);
-        if (pidWait1 == c)
-        {
-            printf("4a) P2(%d) terminated first\n", pidWait1);
-            printf("4b) P3(%d) terminated second\n", pidWait2);
-        }
-        else
-        {
-            printf("4a) P3(%d) terminated first\n", pidWait1);
-            printf("4b) P2(%d) terminated second\n", pidWait2);
-        }
+        printf("4bA) P1(%d) is waiting to P3(%d) to terminate\n", getpid(), c2);
+        pidWait2 = waitpid(c2, NULL, 0);
+        printf("4bB) P3(%d) terminated\n", c);
     }
     else
     {
