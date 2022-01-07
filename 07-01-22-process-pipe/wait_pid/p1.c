@@ -18,7 +18,7 @@ int main()
         {
             printf("4aA) P1(%d) is waiting to P2(%d) to terminate\n", getpid(), c);
             pidWait1 = waitpid(c, NULL, 0);
-            printf("4aB) P2(%d) terminated\n", c);
+            printf("4aB) stopped waiting for P2(%d)\n", c);
         }
         else
         {
@@ -30,7 +30,7 @@ int main()
         }
         printf("4bA) P1(%d) is waiting to P3(%d) to terminate\n", getpid(), c2);
         pidWait2 = waitpid(c2, NULL, 0);
-        printf("4bB) P3(%d) terminated\n", c);
+        printf("4bB) stopped waiting for P3(%d) \n", c2);
     }
     else
     {
