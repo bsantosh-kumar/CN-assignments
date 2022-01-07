@@ -4,7 +4,7 @@
 
 int main()
 {
-    printf("7) P3(%d) started and going to sleep\n", getpid());
+    printf("7a) P3(%d) started and going to sleep\n", getpid());
     sleep(5);
-    printf("9) P3(%d) came from sleep and exiting\n", getpid());
+    printf("7b) P3(%d) came from sleep and exiting\n", getpid());
 }
