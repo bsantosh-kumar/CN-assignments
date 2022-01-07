@@ -1,5 +1,5 @@
 #include <stdio.h>
 int main()
 {
-    printf("This is P2 program\n");
+    printf("5) This is P2 program\n");
 }
