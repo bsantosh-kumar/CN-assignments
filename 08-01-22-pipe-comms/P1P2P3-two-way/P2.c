@@ -47,7 +47,7 @@ int main(int argc, char *argv[])
             dup2(readP3Fd, STDIN_FILENO);
             scanf("%s", currMessage);
             dup2(terminalWFD, STDOUT_FILENO);
-            printf("P2 recieved '%s' from P3, now sending to P1\n", currMessage);
+            printf("I am process P2\nP2 recieved '%s' from P3, now sending to P1\n", currMessage);
             fflush(stdout);
             dup2(writeP1FD, STDOUT_FILENO);
             printf("%s\n", currMessage);
