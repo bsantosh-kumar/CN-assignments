@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 int main()
 {
     int fd1[2];
@@ -25,7 +26,7 @@ int main()
         while (1)
         {
             char *currMessage = calloc(100, sizeof(char));
-            printf("Write string to send to P2:");
+            printf("Enter message to send to P2 from P1:");
             dup2(terminalWFD, STDOUT_FILENO);
             dup2(terminalRFD, STDIN_FILENO);
             //step - 1 read from screen
@@ -52,7 +53,7 @@ int main()
             dup2(terminalWFD, STDOUT_FILENO);
 
             dup2(terminalRFD, STDIN_FILENO);
-            printf("P1 read the message '%s' from P2\n", currMessage);
+            printf("P2 sent '%s' message to P1\n", currMessage);
             fflush(stdout);
         }
         fflush(stdout);

@@ -2,6 +2,8 @@
     "files.associations": {
         "unistd.h": "c",
         "*.tcc": "c",
-        "cmath": "c"
+        "cmath": "c",
+        "string": "c",
+        "streambuf": "c"
     }
 }

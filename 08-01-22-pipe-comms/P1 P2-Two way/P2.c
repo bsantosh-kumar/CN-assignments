@@ -3,6 +3,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <stdbool.h>
+#include <string.h>
 int main(int argc, char *argv[])
 {
     if (argc != 3)
@@ -22,15 +23,13 @@ int main(int argc, char *argv[])
         dup2(terminalWFD, STDOUT_FILENO);
         dup2(terminalRFD, STDIN_FILENO);
         dup2(readFD, STDIN_FILENO);
-        printf("Startin of P2:\n");
-        fflush(stdout);
 
         scanf("%s", currMessage);
         if (strcmp(currMessage, "NULL") == 0)
         {
             break;
         }
-        printf("In P2 \"%s\"\n", currMessage);
+        printf("I am process P2\n");
         fflush(stdout);
 
         printf("P1 sent '%s' message to P2\n", currMessage);
@@ -60,10 +59,9 @@ int main(int argc, char *argv[])
             int temp = 0;
         }
         dup2(terminalWFD, STDOUT_FILENO);
-        printf("Sent the message '%s'\n", currMessage);
-        fflush(stdout);
     }
     fflush(stdout);
     dup2(terminalWFD, STDOUT_FILENO);
     printf("P2 exited\n");
+    fflush(stdout);
 }
