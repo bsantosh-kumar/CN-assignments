@@ -177,6 +177,5 @@ int main()
         }
         close(pfd2[1]);
         close(pfd1[0]);
-        printf("P' is exiting\n");
     }
 }
