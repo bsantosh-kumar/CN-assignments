@@ -28,8 +28,6 @@ void writeToPipe(int wfd, char *currMessage, int noOfPackets, char *startingMess
         write(wfd, currMessage + i * PACKET_SIZE, PACKET_SIZE);
     }
     write(wfd, endingMessage, 65);
-    printf("Sent the message '%s'\n", currMessage);
-    printf("Returned from write\n");
 }
 bool readFromPipe(int rfd, char **currMessagePtr, int *messageSizePtr, char *startingMessage, char *endingMessage, char *closingConnection)
 {
@@ -75,7 +73,6 @@ int main()
     int size = 10;
     pipe(pfd1);
     pipe(pfd2);
-    printf("The pipes are: %d %d\n%d %d\n", pfd1[0], pfd1[1], pfd2[0], pfd2[1]);
     int child = fork();
     if (child > 0)
     {
