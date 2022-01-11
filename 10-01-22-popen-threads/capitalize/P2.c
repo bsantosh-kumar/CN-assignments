@@ -22,5 +22,11 @@ int main()
         scanf("%s", buffer);
         printf("%s ", buffer);
         fflush(stdout);
+        if (strcmp(buffer, "NULL") == 0)
+        {
+            break;
+        }
     }
+    dprintf(screen, "P2 is exiting\n");
+    close(fd);
 }

@@ -17,6 +17,11 @@ int main()
     {
         char buffer[100];
         scanf("%s", buffer);
+        if (strcmp(buffer, "NULL") == 0)
+        {
+            write(writeFD, buffer, strlen(buffer) + 1);
+            break;
+        }
         int lenBuffer = strlen(buffer);
         for (int i = 0; i < lenBuffer; i++)
         {
@@ -29,4 +34,6 @@ int main()
         strcat(buffer, " from P3 ");
         write(writeFD, buffer, lenBuffer + 10);
     }
+    close(writeFD);
+    printf("P3 is exiting\n");
 }

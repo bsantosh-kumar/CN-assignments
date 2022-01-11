@@ -15,9 +15,7 @@ void *writeToPipe(void *voidWriteFD)
 
     int writeFD = *((int *)(voidWriteFD));
     fflush(stdout);
-    nu
-
-        char buffer[SIZE];
+    char buffer[SIZE];
     while (1)
     {
         printf("Enter string to P1:\n");
@@ -27,6 +25,12 @@ void *writeToPipe(void *voidWriteFD)
         buffer[lenBuffer] = ' ';
         buffer[lenBuffer + 1] = '\0';
         write(writeFD, buffer, lenBuffer + 1);
+        fflush(stdout);
+        if (strcmp(buffer, "NULL ") == 0)
+        {
+            close(writeFD);
+            break;
+        }
     }
     return NULL;
 }
@@ -38,8 +42,12 @@ void *readFromPipe(void *voidReadFD)
     {
         read(readFD, buffer, SIZE);
         printf("P1 read '%s' from 'green' FIFO\n", buffer);
+        if (strcmp(buffer, "NULL") == 0)
+            break;
         fflush(stdout);
     }
+    close(readFD);
+    return NULL;
 }
 int main()
 {
@@ -57,4 +65,5 @@ int main()
     pthread_create(&recieveThread, NULL, readFromPipe, &readFD);
     pthread_join(sendThread, NULL);
     pthread_join(recieveThread, NULL);
+    printf("P1 exiting\n");
 }
