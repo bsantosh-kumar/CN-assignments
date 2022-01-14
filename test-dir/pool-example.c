@@ -31,7 +31,7 @@ int main()
     int ready = poll(plfd, nfds, -1);
     if (ready == -1)
       return 0;
-    for (int i = 0; i < 3; i++)
+    for (int i = 0; i < 4; i++)
     {
       // https://www.geeksforgeeks.org/difference-between-malloc-and-calloc-with-examples/
       printf("Came until here\n");

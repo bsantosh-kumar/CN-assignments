@@ -7,6 +7,8 @@
         "streambuf": "c",
         "stdlib.h": "c",
         "fcntl.h": "c",
-        "signal.h": "c"
+        "signal.h": "c",
+        "exception": "c",
+        "new": "c"
     }
 }
