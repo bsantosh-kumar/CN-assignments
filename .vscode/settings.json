@@ -5,6 +5,8 @@
         "cmath": "c",
         "string": "c",
         "streambuf": "c",
-        "stdlib.h": "c"
+        "stdlib.h": "c",
+        "fcntl.h": "c",
+        "signal.h": "c"
     }
 }
