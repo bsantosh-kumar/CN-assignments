@@ -4,6 +4,7 @@
         "*.tcc": "c",
         "cmath": "c",
         "string": "c",
-        "streambuf": "c"
+        "streambuf": "c",
+        "stdlib.h": "c"
     }
 }
