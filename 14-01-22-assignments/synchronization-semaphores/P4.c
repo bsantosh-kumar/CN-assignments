@@ -4,23 +4,24 @@
 #include <stdlib.h>
 #include <semaphore.h>
 #define PRGNO 4
-int getNextProcess()
+int getNextProcess(int i)
 {
-    return PRGNO % 4 + 1;
+    return i % 4 + 1;
 }
-int getPreviousProcess()
+int getPreviousProcess(int i)
 {
-    if ((PRGNO - 1 + 4) % 4 == 0)
+    if ((i - 1 + 4) % 4 == 0)
         return 4;
     else
-        return (PRGNO - 1 + 4) % 4;
+        return (i - 1 + 4) % 4;
 }
+
 sem_t *forwardSem, *backwardSem;
 void init_code()
 {
     int adjacent[2][2];
-    adjacent[0][0] = getPreviousProcess();
-    adjacent[1][1] = getNextProcess();
+    adjacent[0][0] = getPreviousProcess(PRGNO);
+    adjacent[1][1] = getNextProcess(PRGNO);
     adjacent[0][1] = adjacent[1][0] = PRGNO;
     for (int i = 0; i < 2; i++)
     {
@@ -38,15 +39,15 @@ int main()
     while (1)
     {
 
-        printf("I am P%d. I am waiting for semaphore S%d%d\n", PRGNO, getPreviousProcess(), PRGNO);
+        printf("I am P%d. I am waiting for semaphore S%d%d\n", PRGNO, getPreviousProcess(PRGNO), PRGNO);
         fflush(stdout);
         sem_wait(backwardSem);
-        printf("I got semaphore signalling from P%d\n", getPreviousProcess());
-        printf("Enter any character to sem-signal(S%d%d)\n", PRGNO, getNextProcess());
+        printf("I got semaphore signalling from P%d\n", getPreviousProcess(PRGNO));
+        printf("Enter any character to sem-signal(S%d%d)\n", PRGNO, getNextProcess(PRGNO));
         fflush(stdout);
         char c;
         scanf("%c", &c);
-        printf("I am signalling semaphore signal of S%d%d\n", PRGNO, getNextProcess());
+        printf("I am signalling semaphore signal of S%d%d\n", PRGNO, getNextProcess(PRGNO));
         fflush(stdout);
         sem_post(forwardSem);
     }
