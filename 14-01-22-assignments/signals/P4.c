@@ -61,7 +61,7 @@ void intializeSemaphores(int i)
     nextSem = sem_open(nextNum, O_CREAT, 0666, 0);
     // printf("previousSem:%s, currSEm:%s, nextSem:%s\n", previousNum, currNum, nextNum);
 }
-int getMsgID()
+int getMessageID()
 {
 
     key_t key = ftok("makefile", 69);
@@ -86,7 +86,7 @@ struct message_struct recieveMessage(int msgID, int type)
 void *getRightFunc(void *voidPtr)
 {
     int *rightPtr = (int *)voidPtr;
-    int msgID = getMsgID();
+    int msgID = getMessageID();
     struct message_struct recievedMessage = recieveMessage(msgID, 1);
     *rightPtr = atoi(recievedMessage.mtext);
     kill(*rightPtr, SIGUSR1);
@@ -141,7 +141,7 @@ int main()
 
     // pthread_t leftThread, rightThread;
     // pthread_create(&leftThread, NULL, getLeftFunc, (void *)&leftPID);
-    int msgID = getMsgID();
+    int msgID = getMessageID();
     struct message_struct message;
     message.mtype = 4;
     sprintf(message.mtext, "%d", getpid());

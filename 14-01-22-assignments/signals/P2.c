@@ -61,7 +61,7 @@ void intializeSemaphores(int i)
     nextSem = sem_open(nextNum, O_CREAT, 0666, 0);
     // printf("previousSem:%s, currSEm:%s, nextSem:%s\n", previousNum, currNum, nextNum);
 }
-int getMsgID()
+int getMessageID()
 {
 
     key_t key = ftok("makefile", 69);
@@ -96,7 +96,7 @@ void init_code()
             sem_unlink(currName);
         }
     }
-    int msgID = getMsgID();
+    int msgID = getMessageID();
     msgctl(msgID, IPC_RMID, NULL);
     printf("Hi I am P%d PID:%d\n", PRGNO, getpid());
     intializeHandler(SIGUSR1, initHandler);
@@ -117,7 +117,7 @@ void sendP1(int msgID, int p1ID)
 void *getRightFunc(void *voidPtr)
 {
     int *rightPtr = (int *)voidPtr;
-    int msgID = getMsgID();
+    int msgID = getMessageID();
     struct message_struct recievedMessage = recieveMessage(msgID, 3);
     *rightPtr = atoi(recievedMessage.mtext);
     kill(*rightPtr, SIGUSR1);
@@ -161,7 +161,7 @@ void unmaskSignal(int signal)
 int main()
 {
     init_code();
-    int msgID = getMsgID();
+    int msgID = getMessageID();
     // printf("Done initialisation\n");
     fflush(stdout);
 
