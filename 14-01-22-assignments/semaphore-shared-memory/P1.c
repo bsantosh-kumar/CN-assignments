@@ -53,15 +53,14 @@ int main()
     int yShmID = getyShmID();
     getSemaphores();
     char c;
+
+    int *y = shmat(yShmID, NULL, 0);
+    int *x = shmat(xShmID, NULL, 0);
     while (1)
     {
         printf("I am reading shm y\n");
-        int *y = shmat(yShmID, NULL, 0);
-        int *x = shmat(xShmID, NULL, 0);
         *x = *y + 1;
         printf("Value of X is:%d\n", *x);
-        shmdt(x);
-        shmdt(y);
         printf("Enter any char to signal S1\n");
         scanf("%c", &c);
         sem_post(S1);

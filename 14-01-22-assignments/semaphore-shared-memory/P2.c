@@ -35,16 +35,14 @@ int main()
     int yShmID = getyShmID();
     getSemaphores();
     char c;
+    int *x = shmat(xShmID, NULL, 0);
+    int *y = shmat(yShmID, NULL, 0);
     while (1)
     {
         printf("I am waiting for S1\n");
         sem_wait(S1);
-        int *x = shmat(xShmID, NULL, 0);
-        int *y = shmat(yShmID, NULL, 0);
         *y = *x + 1;
         printf("Value of Y is:%d\n", *y);
-        shmdt(x);
-        shmdt(y);
         printf("Enter any char to signal S2\n");
         scanf("%c", &c);
         sem_post(S2);
