@@ -9,7 +9,6 @@
 #include <semaphore.h>
 #include <stdbool.h>
 #include <fcntl.h>
-#define SERVERPORT 20500
 
 struct ipAddStruct_t
 {
@@ -176,6 +175,12 @@ int main(int argc, char *argv[])
 {
     int sFD;
     int nsFD;
+    if (argc != 2)
+    {
+        printf("Need two arguments\n");
+        exit(EXIT_FAILURE);
+    }
+    int SERVERPORT = atoi(argv[1]);
     printf("Trying to create sfd\n");
     if ((sFD = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     {
