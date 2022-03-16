@@ -10,6 +10,25 @@
         "signal.h": "c",
         "exception": "c",
         "new": "c",
-        "stdbool.h": "c"
+        "stdbool.h": "c",
+        "bit": "c",
+        "bitset": "c",
+        "chrono": "c",
+        "codecvt": "c",
+        "compare": "c",
+        "algorithm": "c",
+        "functional": "c",
+        "iterator": "c",
+        "memory": "c",
+        "future": "c",
+        "limits": "c",
+        "numeric": "c",
+        "ranges": "c",
+        "ratio": "c",
+        "shared_mutex": "c",
+        "regex": "c",
+        "tuple": "c",
+        "type_traits": "c",
+        "valarray": "c"
     }
 }
