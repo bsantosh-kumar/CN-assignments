@@ -29,6 +29,7 @@
         "regex": "c",
         "tuple": "c",
         "type_traits": "c",
-        "valarray": "c"
+        "valarray": "c",
+        "un.h": "c"
     }
 }

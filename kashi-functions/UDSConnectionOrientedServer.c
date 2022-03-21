@@ -7,7 +7,7 @@
 
 #define PATH "/tmp/socket"
 
-int set_server(char name[])
+int uds_set_server(char local_name[])
 {
     int usfd;
 
@@ -22,9 +22,9 @@ int set_server(char name[])
     }
 
     userv_addr.sun_family = AF_UNIX;
-    strcpy(userv_addr.sun_path, name);
+    strcpy(userv_addr.sun_path, local_name);
 
-    unlink(name);
+    unlink(local_name);
 
     userv_len = sizeof(userv_addr);
 
@@ -50,7 +50,7 @@ int main()
     struct sockaddr_un ucli_addr;
     int ucli_len;
 
-    usfd = set_server(PATH);
+    usfd = uds_set_server(PATH);
 
     int nusfd;
 

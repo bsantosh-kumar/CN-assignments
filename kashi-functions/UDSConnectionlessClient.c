@@ -8,7 +8,7 @@
 #define CLIENT "/tmp/client"
 #define SERVER "/tmp/server"
 
-int set_client(char server[], char client[], struct sockaddr_un *userv_addr, int *userv_len)
+int uds_set_client(char server[], char client[], struct sockaddr_un *userv_addr, int *userv_len)
 {
     int usfd;
     struct sockaddr_un ucli_addr;
@@ -49,7 +49,7 @@ int main()
 
     int userv_len;
 
-    usfd = set_client(SERVER, CLIENT, &userv_addr, &userv_len);
+    usfd = uds_set_client(SERVER, CLIENT, &userv_addr, &userv_len);
 
     sendto(usfd, "Hello from client!", 19, 0, (struct sockaddr *)&userv_addr, userv_len);
 
