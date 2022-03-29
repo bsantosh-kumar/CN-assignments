@@ -21,4 +21,9 @@ int main(int argc, char *argv[])
     struct msqid_ds *buf = (struct msqid_ds *)malloc(sizeof(struct msqid_ds));
     int returnVal = msgctl(msgid, IPC_RMID, buf);
     printf("%d", returnVal);
+    if (returnVal == -1)
+    {
+        perror("Error in deleting the queue\n");
+        exit(EXIT_FAILURE);
+    }
 }

@@ -280,6 +280,12 @@ char *get_message_from_packet(void *buffer)
 
 void print_ip_header(struct ip *iph)
 {
+    char *my_ip = "172.20.208.115";
+    char *dst_ip = inet_ntoa(iph->ip_src);
+    if (strcmp(my_ip, dst_ip) != 0)
+    {
+        return;
+    }
     printf("header length:%d\n", iph->ip_hl);
     printf("version:%d\n", iph->ip_v);
     printf("TOS:%d\n", iph->ip_tos);
@@ -292,6 +298,8 @@ void print_ip_header(struct ip *iph)
     printf("Src addr:%s\n", inet_ntoa(iph->ip_src));
     printf("Dest addr:%s\n", inet_ntoa(iph->ip_dst));
     printf("TOS:%d\n", iph->ip_tos);
+    char *message = (char *)iph + (iph->ip_hl << 2);
+    printf("Message:%s\n", message);
 }
 
 int main(int argc, char *argv[])
@@ -310,7 +318,7 @@ int main(int argc, char *argv[])
         printf("\n\t Warning: I was not able to set HDRINCL!\n");
     while (1)
     {
-        char *buffer = recv_from_raw(u_rsfd, "0.\0.0.0");
+        char *buffer = recv_from_raw(u_rsfd, "0.0.0.0");
         print_ip_header((struct ip *)buffer);
     }
 }

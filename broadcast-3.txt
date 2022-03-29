@@ -1,0 +1,35 @@
+PING 172.20.223.255 (172.20.223.255) 56(84) bytes of data.
+64 bytes from 172.20.223.46: icmp_seq=1 ttl=64 time=8.34 ms
+64 bytes from 172.20.209.21: icmp_seq=1 ttl=64 time=10.3 ms
+64 bytes from 172.20.217.117: icmp_seq=1 ttl=64 time=10.3 ms
+64 bytes from 172.20.207.171: icmp_seq=1 ttl=64 time=12.4 ms
+64 bytes from 172.20.215.125: icmp_seq=1 ttl=64 time=12.4 ms
+64 bytes from 172.20.204.151: icmp_seq=1 ttl=64 time=15.4 ms
+64 bytes from 172.20.222.229: icmp_seq=1 ttl=64 time=30.1 ms
+64 bytes from 172.20.208.19: icmp_seq=1 ttl=64 time=36.0 ms
+64 bytes from 172.20.204.146: icmp_seq=1 ttl=64 time=56.4 ms
+64 bytes from 172.20.202.42: icmp_seq=1 ttl=64 time=58.4 ms
+64 bytes from 172.20.204.11: icmp_seq=1 ttl=64 time=69.0 ms
+64 bytes from 172.20.192.1: icmp_seq=1 ttl=255 time=69.0 ms
+64 bytes from 172.20.212.93: icmp_seq=1 ttl=64 time=73.9 ms
+64 bytes from 172.20.205.36: icmp_seq=1 ttl=64 time=90.3 ms
+64 bytes from 172.20.203.183: icmp_seq=1 ttl=64 time=94.4 ms
+64 bytes from 172.20.215.245: icmp_seq=1 ttl=64 time=94.4 ms
+64 bytes from 172.20.203.203: icmp_seq=1 ttl=64 time=94.6 ms
+64 bytes from 172.20.203.77: icmp_seq=1 ttl=64 time=94.9 ms
+64 bytes from 172.20.210.17: icmp_seq=1 ttl=64 time=97.8 ms
+64 bytes from 172.20.221.186: icmp_seq=1 ttl=64 time=99.5 ms
+64 bytes from 172.20.208.134: icmp_seq=1 ttl=64 time=107 ms
+64 bytes from 172.20.204.61: icmp_seq=1 ttl=64 time=107 ms
+64 bytes from 172.20.202.21: icmp_seq=1 ttl=64 time=108 ms
+64 bytes from 172.20.208.131: icmp_seq=1 ttl=64 time=111 ms
+64 bytes from 172.20.203.63: icmp_seq=1 ttl=64 time=114 ms
+64 bytes from 172.20.207.207: icmp_seq=1 ttl=64 time=114 ms
+64 bytes from 172.20.221.152: icmp_seq=1 ttl=64 time=118 ms
+64 bytes from 172.20.208.242: icmp_seq=1 ttl=64 time=120 ms
+64 bytes from 172.20.223.204: icmp_seq=1 ttl=64 time=585 ms
+64 bytes from 172.20.192.1: icmp_seq=2 ttl=255 time=7.52 ms
+
+--- 172.20.223.255 ping statistics ---
+2 packets transmitted, 2 received, +28 duplicates, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 7.519/87.297/585.330/100.509 ms

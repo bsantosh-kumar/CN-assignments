@@ -1,0 +1,38 @@
+PING 172.20.223.255 (172.20.223.255) 56(84) bytes of data.
+64 bytes from 172.20.204.151: icmp_seq=1 ttl=64 time=6.61 ms
+64 bytes from 172.20.202.42: icmp_seq=1 ttl=64 time=9.00 ms
+64 bytes from 172.20.192.1: icmp_seq=1 ttl=255 time=18.7 ms
+64 bytes from 172.20.204.11: icmp_seq=1 ttl=64 time=34.2 ms
+64 bytes from 172.20.205.19: icmp_seq=1 ttl=64 time=66.2 ms
+64 bytes from 172.20.203.203: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.208.134: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.212.93: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.203.183: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.215.161: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.209.21: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.223.46: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.215.245: icmp_seq=1 ttl=64 time=68.2 ms
+64 bytes from 172.20.203.77: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.207.171: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.221.186: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.202.21: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.207.207: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.210.17: icmp_seq=1 ttl=64 time=68.3 ms
+64 bytes from 172.20.203.63: icmp_seq=1 ttl=64 time=70.6 ms
+64 bytes from 172.20.207.11: icmp_seq=1 ttl=64 time=72.8 ms
+64 bytes from 172.20.208.242: icmp_seq=1 ttl=64 time=72.8 ms
+64 bytes from 172.20.204.61: icmp_seq=1 ttl=64 time=74.0 ms
+64 bytes from 172.20.202.36: icmp_seq=1 ttl=64 time=74.0 ms
+64 bytes from 172.20.205.67: icmp_seq=1 ttl=64 time=78.1 ms
+64 bytes from 172.20.221.152: icmp_seq=1 ttl=64 time=86.0 ms
+64 bytes from 172.20.208.19: icmp_seq=1 ttl=64 time=105 ms
+64 bytes from 172.20.204.146: icmp_seq=1 ttl=64 time=115 ms
+64 bytes from 172.20.217.173: icmp_seq=1 ttl=64 time=128 ms
+64 bytes from 172.20.223.204: icmp_seq=1 ttl=64 time=173 ms
+64 bytes from 172.20.207.193: icmp_seq=1 ttl=64 time=216 ms
+64 bytes from 172.20.202.17: icmp_seq=1 ttl=64 time=944 ms
+64 bytes from 172.20.192.1: icmp_seq=2 ttl=255 time=4.18 ms
+
+--- 172.20.223.255 ping statistics ---
+2 packets transmitted, 2 received, +31 duplicates, 0% packet loss, time 1000ms
+rtt min/avg/max/mdev = 4.175/100.126/944.368/154.678 ms

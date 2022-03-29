@@ -1,0 +1,66 @@
+sudo timeout 2s ./arp.out eth0 172.20.192.1
+get_if_info for eth0
+interface index is 2
+get_if_info OK
+Clean up temporary socket
+bind_arp: ifindex=2
+Binding to ifindex 2
+Copy IP address to arp_req
+read_arp
+received ARP len=60
+Sender IP: 172.20.192.1
+Sender MAC: 00:25:83:70:10:00
+Got reply, break out
+sudo timeout 2s ./arp.out eth0 172.20.192.1 Sucess
+sudo timeout 2s ./arp.out eth0 172.20.207.209
+sudo timeout 2s ./arp.out eth0 172.20.207.209 Fail
+sudo timeout 2s ./arp.out eth0 172.20.214.124
+sudo timeout 2s ./arp.out eth0 172.20.214.124 Fail
+sudo timeout 2s ./arp.out eth0 172.20.217.16
+sudo timeout 2s ./arp.out eth0 172.20.217.16 Fail
+sudo timeout 2s ./arp.out eth0 172.20.207.140
+sudo timeout 2s ./arp.out eth0 172.20.207.140 Fail
+sudo timeout 2s ./arp.out eth0 172.20.215.245
+sudo timeout 2s ./arp.out eth0 172.20.215.245 Fail
+sudo timeout 2s ./arp.out eth0 172.20.205.85
+sudo timeout 2s ./arp.out eth0 172.20.205.85 Fail
+sudo timeout 2s ./arp.out eth0 172.20.205.19
+sudo timeout 2s ./arp.out eth0 172.20.205.19 Fail
+sudo timeout 2s ./arp.out eth0 172.20.204.11
+sudo timeout 2s ./arp.out eth0 172.20.204.11 Fail
+sudo timeout 2s ./arp.out eth0 172.20.209.238
+sudo timeout 2s ./arp.out eth0 172.20.209.238 Fail
+sudo timeout 2s ./arp.out eth0 172.20.205.36
+sudo timeout 2s ./arp.out eth0 172.20.205.36 Fail
+sudo timeout 2s ./arp.out eth0 172.20.210.153
+sudo timeout 2s ./arp.out eth0 172.20.210.153 Fail
+sudo timeout 2s ./arp.out eth0 172.20.207.5
+sudo timeout 2s ./arp.out eth0 172.20.207.5 Fail
+sudo timeout 2s ./arp.out eth0 172.20.207.145
+sudo timeout 2s ./arp.out eth0 172.20.207.145 Fail
+sudo timeout 2s ./arp.out eth0 172.20.204.247
+sudo timeout 2s ./arp.out eth0 172.20.204.247 Fail
+sudo timeout 2s ./arp.out eth0 172.20.219.38
+sudo timeout 2s ./arp.out eth0 172.20.219.38 Fail
+sudo timeout 2s ./arp.out eth0 172.20.205.161
+sudo timeout 2s ./arp.out eth0 172.20.205.161 Fail
+sudo timeout 2s ./arp.out eth0 172.20.212.93
+sudo timeout 2s ./arp.out eth0 172.20.212.93 Fail
+sudo timeout 2s ./arp.out eth0 172.20.205.67
+sudo timeout 2s ./arp.out eth0 172.20.205.67 Fail
+sudo timeout 2s ./arp.out eth0 172.20.204.146
+sudo timeout 2s ./arp.out eth0 172.20.204.146 Fail
+sudo timeout 2s ./arp.out eth0 172.20.192.1
+get_if_info for eth0
+interface index is 2
+get_if_info OK
+Clean up temporary socket
+bind_arp: ifindex=2
+Binding to ifindex 2
+Copy IP address to arp_req
+read_arp
+received ARP len=60
+Sender IP: 172.20.192.1
+Sender MAC: 00:25:83:70:10:00
+Got reply, break out
+sudo timeout 2s ./arp.out eth0 172.20.192.1 Sucess
