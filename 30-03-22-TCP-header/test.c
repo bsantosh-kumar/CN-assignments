@@ -325,7 +325,6 @@ char *recv_from_raw(int rsfd, char *recv_addr)
     struct sockaddr_in for_addr;
     for_addr.sin_family = PF_INET;
     for_addr.sin_addr.s_addr = inet_addr(recv_addr);
-    for_addr.sin_port = htons(8080);
     int len = sizeof(for_addr);
     int retVal = -1;
     if ((retVal = recvfrom(rsfd, buffer, 4096, 0, (SA *)&for_addr, (socklen_t *)&len)) == -1)
@@ -357,22 +356,9 @@ int main(int argc, char *argv[])
     const int *val = &one;
     if (setsockopt(u_rsfd, IPPROTO_IP, IP_HDRINCL, val, sizeof(one)) < 0)
         printf("\n\t Warning: I was not able to set HDRINCL!\n");
-    char *opt;
-    opt = "eth0";
-    setsockopt(u_rsfd, SOL_SOCKET, SO_BINDTODEVICE, opt, 4);
-    struct sockaddr_in for_addr;
-    for_addr.sin_family = PF_INET;
-    for_addr.sin_addr.s_addr = inet_addr("172.30.137.17");
-    for_addr.sin_port = htons(8080);
-    if (bind(u_rsfd, (SA *)&for_addr, sizeof(for_addr)) == -1)
-    {
-        perror("error in binding\n");
-        exit(EXIT_FAILURE);
-    }
     while (1)
     {
-        char *buffer = recv_from_raw(u_rsfd, "172.30.136.179");
+        char *buffer = recv_from_raw(u_rsfd, "0.0.0.0");
         print_tcp_packet(buffer);
-        free(buffer);
     }
 }

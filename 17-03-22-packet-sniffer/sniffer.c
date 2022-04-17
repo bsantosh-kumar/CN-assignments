@@ -19,6 +19,10 @@
 #define UMP "umpire.uds"
 #define PROT_UMP 200
 #define PROT_FIE 240
+#include <netinet/if_ether.h>
+#include <netinet/ip.h>
+#include <netpacket/packet.h>
+
 unsigned short /* this function generates header checksums */
 csum(unsigned short *buf, int nwords)
 {
@@ -263,6 +267,7 @@ char *recv_from_raw(int rsfd, char *recv_addr)
     for_addr.sin_addr.s_addr = inet_addr(recv_addr);
     int len = sizeof(for_addr);
     int retVal = -1;
+    struct ethhdr *ethh = (struct ethhdr *)buffer;
     if ((retVal = recvfrom(rsfd, buffer, 4096, 0, (SA *)&for_addr, (socklen_t *)&len)) == -1)
     {
         perror("Error in recv from fielder\n");
@@ -280,10 +285,13 @@ char *get_message_from_packet(void *buffer)
 
 void print_ip_header(struct ip *iph)
 {
-    char *my_ip = "172.20.208.115";
-    char *dst_ip = inet_ntoa(iph->ip_src);
-    if (strcmp(my_ip, dst_ip) != 0)
+    in_addr_t my_ip = inet_addr("172.20.207.76");
+    in_addr_t required_ip = iph->ip_dst.s_addr;
+    if (my_ip != required_ip)
     {
+        printf("Not equal\n");
+        printf("%s\n", inet_ntoa(iph->ip_dst));
+        fflush(stdout);
         return;
     }
     printf("header length:%d\n", iph->ip_hl);
@@ -306,7 +314,7 @@ int main(int argc, char *argv[])
 {
     // init_code();
     int u_rsfd = -1;
-    if ((u_rsfd = socket(PF_INET, SOCK_RAW, IPPROTO_TCP)) == -1)
+    if ((u_rsfd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ALL))) == -1)
     {
         perror("error in creation of raw socket\n");
         exit(EXIT_FAILURE);

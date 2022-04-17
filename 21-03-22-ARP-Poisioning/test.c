@@ -9,7 +9,7 @@
 #include <linux/if_ether.h>
 #include <linux/if_arp.h>
 #include <arpa/inet.h> //htons etc
-#include <sys/poll.h>
+
 #define PROTO_ARP 0x0806
 #define ETH2_HEADER_LEN 14
 #define HW_TYPE 1
@@ -125,7 +125,7 @@ out:
  * Sends an ARP who-has request to dst_ip
  * on interface ifindex, using source mac src_mac and source ip src_ip.
  */
-int send_arp(int fd, int ifindex, const unsigned char *src_mac, uint32_t src_ip, uint32_t dst_ip, int opcode, unsigned char h_dest[6], unsigned char target_mac[6])
+int send_arp(int fd, int ifindex, const unsigned char *src_mac, uint32_t src_ip, uint32_t dst_ip)
 {
     int err = -1;
     unsigned char buffer[BUF_SIZE];
@@ -147,11 +147,11 @@ int send_arp(int fd, int ifindex, const unsigned char *src_mac, uint32_t src_ip,
     ssize_t ret, length = 0;
 
     // Broadcast
-    // memset(send_req->h_dest, 0xff, MAC_LENGTH);
-    memcpy(send_req->h_dest, h_dest, MAC_LENGTH);
+    memset(send_req->h_dest, 0xff, MAC_LENGTH);
+
     // Target MAC zero
-    // memset(arp_req->target_mac, 0x00, MAC_LENGTH);
-    memcpy(arp_req->target_mac, target_mac, MAC_LENGTH);
+    memset(arp_req->target_mac, 0x00, MAC_LENGTH);
+
     // Set source mac to our MAC address
     memcpy(send_req->h_source, src_mac, MAC_LENGTH);
     memcpy(arp_req->sender_mac, src_mac, MAC_LENGTH);
@@ -165,10 +165,9 @@ int send_arp(int fd, int ifindex, const unsigned char *src_mac, uint32_t src_ip,
     arp_req->protocol_type = htons(ETH_P_IP);
     arp_req->hardware_len = MAC_LENGTH;
     arp_req->protocol_len = IPV4_LENGTH;
-    arp_req->opcode = htons(opcode);
+    arp_req->opcode = htons(ARP_REQUEST);
 
-    // debug("Copy IP address to arp_req");
-    src_ip = inet_addr("172.20.192.1");
+    debug("Copy IP address to arp_req");
     memcpy(arp_req->sender_ip, &src_ip, sizeof(uint32_t));
     memcpy(arp_req->target_ip, &dst_ip, sizeof(uint32_t));
 
@@ -194,7 +193,7 @@ int get_if_info(const char *ifname, uint32_t *ip, char *mac, int *ifindex)
     debug("get_if_info for %s", ifname);
     int err = -1;
     struct ifreq ifr;
-    int sd = socket(PF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
+    int sd = socket(AF_PACKET, SOCK_RAW, htons(ETH_P_ARP));
     if (sd <= 0)
     {
         perror("socket()");
@@ -286,35 +285,12 @@ out:
  * Reads a single ARP reply from fd.
  * Return 0 on success.
  */
-int read_arp(int fd, int ifindex, char **all_macs, int *all_macs_size)
+int read_arp(int fd)
 {
-    // debug("read_arp");
+    debug("read_arp");
     int ret = -1;
     unsigned char buffer[BUF_SIZE];
-    struct sockaddr_ll socket_address;
-    socket_address.sll_family = PF_PACKET;
-    socket_address.sll_protocol = htons(ETH_P_ARP);
-    socket_address.sll_ifindex = ifindex;
-    socket_address.sll_hatype = htons(ARPHRD_ETHER);
-    socket_address.sll_pkttype = (PACKET_HOST | PACKET_BROADCAST);
-    socket_address.sll_halen = MAC_LENGTH;
-    socket_address.sll_addr[6] = 0x00;
-    socket_address.sll_addr[7] = 0x00;
-    memset(socket_address.sll_addr, 0x00, MAC_LENGTH);
-    int len = sizeof(socket_address);
-    printf("Before recv from\n");
-    fflush(stdout);
-    struct pollfd poll_fd[1];
-    poll_fd[0].fd = fd;
-    poll_fd[0].events = POLLIN;
-    if (poll(poll_fd, 1, 1000) == 0)
-    {
-        printf("Timeout\n");
-        goto out;
-    }
-    ssize_t length = recvfrom(fd, buffer, BUF_SIZE, 0, (struct sockaddr *)&socket_address, (socklen_t *)&len);
-    printf("After arp\n");
-    fflush(stdout);
+    ssize_t length = recvfrom(fd, buffer, BUF_SIZE, 0, NULL, NULL);
     int index;
     if (length == -1)
     {
@@ -328,39 +304,25 @@ int read_arp(int fd, int ifindex, char **all_macs, int *all_macs_size)
         debug("Not an ARP packet");
         goto out;
     }
-
     if (ntohs(arp_resp->opcode) != ARP_REPLY)
     {
-        // debug("Not an ARP reply");
+        debug("Not an ARP reply");
         goto out;
     }
-    // debug("received ARP len=%ld", length);
+    debug("received ARP len=%ld", length);
     struct in_addr sender_a;
     memset(&sender_a, 0, sizeof(struct in_addr));
     memcpy(&sender_a.s_addr, arp_resp->sender_ip, sizeof(uint32_t));
-    // debug("Sender IP: %s", inet_ntoa(sender_a));
-    char *curr_mac = (char *)calloc(100, sizeof(char));
-    sprintf(curr_mac, "%02X:%02X:%02X:%02X:%02X:%02X",
-            arp_resp->sender_mac[0],
-            arp_resp->sender_mac[1],
-            arp_resp->sender_mac[2],
-            arp_resp->sender_mac[3],
-            arp_resp->sender_mac[4],
-            arp_resp->sender_mac[5]);
-    for (int i = 0; i < *all_macs_size; i++)
-    {
-        if (strcmp(all_macs[i], curr_mac) == 0)
-        {
-            free(curr_mac);
-            // goto out;
-            return 0;
-        }
-    }
-    strcpy(all_macs[*all_macs_size], curr_mac);
     debug("Sender IP: %s", inet_ntoa(sender_a));
-    debug("Sender MAC: %s", curr_mac);
-    free(curr_mac);
-    (*all_macs_size)++;
+
+    debug("Sender MAC: %02X:%02X:%02X:%02X:%02X:%02X",
+          arp_resp->sender_mac[0],
+          arp_resp->sender_mac[1],
+          arp_resp->sender_mac[2],
+          arp_resp->sender_mac[3],
+          arp_resp->sender_mac[4],
+          arp_resp->sender_mac[5]);
+
     ret = 0;
 
 out:
@@ -397,40 +359,23 @@ int test_arping(const char *ifname, const char *ip)
         err("Failed to bind_arp()");
         goto out;
     }
-    // src = inet_addr("192.168.68.1");
-    char **all_macs = (char **)calloc(500, sizeof(char *));
-    int all_macs_size = 0;
-    for (int i = 0; i < 500; i++)
-    {
-        all_macs[i] = (char *)calloc(MAC_LENGTH, sizeof(char));
-    }
-    char *curr_ip = (char *)calloc(100, sizeof(char));
-    curr_ip = "172.20.207.";
-    for (int i = 1; i < 255; i++)
-    {
-        char *new_ip = (char *)calloc(100, sizeof(char));
-        sprintf(new_ip, "%s%d", curr_ip, i);
-        printf("i=%d ip=%s\n\r", i, new_ip);
-        dst = inet_addr(new_ip);
-        unsigned char h_dest[6];
-        memset(h_dest, 0xff, MAC_LENGTH);
-        unsigned char target_mac[6];
-        memset(target_mac, 0x00, MAC_LENGTH);
-        free(new_ip);
-        if (send_arp(arp_fd, ifindex, mac, src, dst, ARP_REQUEST, h_dest, target_mac))
-        {
-            err("Failed to send_arp");
-            goto out;
-        }
 
+    if (send_arp(arp_fd, ifindex, mac, src, dst))
+    {
+        err("Failed to send_arp");
+        goto out;
+    }
+
+    while (1)
+    {
+        int r = read_arp(arp_fd);
+        if (r == 0)
         {
-            int r = read_arp(arp_fd, ifindex, all_macs, &all_macs_size);
-            if (r == 0)
-            {
-                printf("%s\n", new_ip);
-            }
+            info("Got reply, break out");
+            break;
         }
     }
+
     ret = 0;
 out:
     if (arp_fd)
