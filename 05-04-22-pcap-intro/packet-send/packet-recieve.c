@@ -62,7 +62,7 @@ int main()
 
     // Open the device for sniffing
     printf("Opening device %s for sniffing ... ", devname);
-    handle = pcap_open_live(devname, 65536, 1, 0, errbuf);
+    handle = pcap_open_live(devname, 65536, 1, 1, errbuf);
 
     if (handle == NULL)
     {
@@ -77,7 +77,7 @@ int main()
         printf("Unable to create file.");
         exit(0);
     }
-    char filter_exp[] = "src host 172.30.136.179"; // filter expression
+    char filter_exp[] = ""; // filter expression
     bpf_u_int32 subnet_mask, ip;
 
     /* Snapshot length is how many bytes to capture from each packet. This includes*/
@@ -91,32 +91,10 @@ int main()
     pcap_lookupnet(devname, &ip, &subnet_mask, errbuf);
     pcap_compile(handle, &filter, filter_exp, 0, ip);
     pcap_setfilter(handle, &filter);
+    pcap_set_immediate_mode(handle, 1);
     // Put the device in sniff loop
     // logfile = stdout;
-    // pcap_loop(handle, -1, process_packet, NULL);
-    while (1)
-    {
-        struct pcap_pkthdr hdr; /* pcap.h */
-        const u_char *packet = NULL;
-        packet = pcap_next(handle, &hdr);
-        if (packet == NULL)
-        { /* dinna work *sob* */
-            printf("Didn't grab packet\n");
-            exit(1);
-        }
-        printf("Grabbed packet of length %d\n", hdr.len);
-        // printf("Recieved at ..... %s\n", ctime((const time_t *)&hdr.ts.tv_sec));
-        printf("Ethernet address length is %d\n", ETHER_HDR_LEN);
-        process_packet(NULL, &hdr, packet);
-
-        /*  struct pcap_pkthdr {
-            struct timeval ts;   time stamp
-            bpf_u_int32 caplen;  length of portion present
-            bpf_u_int32;         lebgth this packet (off wire)
-            }
-         */
-    }
-
+    pcap_loop(handle, -1, process_packet, NULL);
     pcap_close(handle);
     return 0;
 }
@@ -137,8 +115,6 @@ void send_packet(const u_char *buffer, int len)
     {
         printf("pcap_send error\n");
     }
-    printf("sent a packet to gateway\n");
-    fflush(stdout);
     pcap_close(handle);
 }
 void process_packet(u_char *args, const struct pcap_pkthdr *header, const u_char *buffer)
@@ -180,7 +156,6 @@ void process_packet(u_char *args, const struct pcap_pkthdr *header, const u_char
     send_packet(buffer, size);
     fflush(logfile);
     printf("TCP : %d   UDP : %d   ICMP : %d   IGMP : %d   Others : %d   Total : %d\r", tcp, udp, icmp, igmp, others, total);
-    fflush(stdout);
 }
 
 void print_ethernet_header(const u_char *Buffer, int Size)
